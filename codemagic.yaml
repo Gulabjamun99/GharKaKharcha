@@ -12,8 +12,10 @@ workflows:
         script: npx expo prebuild --platform android --clean --no-install
       - name: Build APK
         script: |
+          export NODE_BINARY=$(which node)
+          export PATH=$PATH:$(dirname $(which node))
           cd android
           chmod +x gradlew
-          ./gradlew assembleRelease
+          ./gradlew assembleRelease --no-daemon
     artifacts:
       - android/app/build/outputs/apk/release/*.apk
