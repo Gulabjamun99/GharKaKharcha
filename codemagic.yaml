@@ -10,10 +10,10 @@ workflows:
         script: npm install --legacy-peer-deps
       - name: Expo Prebuild
         script: npx expo prebuild --platform android --clean --no-install
+      - name: Set NODE_BINARY after prebuild
+        script: echo "NODE_BINARY=$(which node)" >> android/gradle.properties
       - name: Build APK
         script: |
-          export NODE_BINARY=$(which node)
-          export PATH=$PATH:$(dirname $(which node))
           cd android
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon
